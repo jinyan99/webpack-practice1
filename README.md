@@ -1,7 +1,7 @@
 ## webpack实践练习项目1
 
 > 参考项目 [一步步从零开始用 webpack 搭建一个大型项目](https://juejin.cn/post/6844904007903772679)
-
+> [参考项目源码](https://github.com/yezishan/webpack-box)
 ### 前言
 
 - 核心所用版本
@@ -56,12 +56,37 @@ npm run build --report # 开启打包分析
 
 
 ### <a id="2">课题2. 搭建开发环境跟生产环境</a>
-
+#### 需要的包
+- ora：ora包用于命令行加载中显示加载中的效果，类似于前端页面的loading效果
 #### 目录
 
+见课题2分支目录
 #### 实现可插拔配置
 
+> 见build/base.js内容
+
+- 作者这种可插拔配置的方式相当于webpack的基础配置文件，和config下内容直接写在一个文件中相比看起来更高级点，这个自动读取你的新增配置文件扩展你的基础通用webpakc配置文件，这就叫可插拔。
+- 然后最终生成的这个build/base的基础配置文件就相当于webpack官方文档中的webpack.common.js通用配置文件。然后huildjs，devjs就是根据不同模式下的最终使用版webpack配置文件
 #### 构建生产环境
+
+> 见build/build.js
+
+#### 构建开发环境（devserver）
+
+#### 提取css
+
+#### 自动生成html
+
+#### 项目测试
+
+
+
+
+
+
+
+
+
 
 
 ### <a id="3">课题3. 基础配置之loader</a>
