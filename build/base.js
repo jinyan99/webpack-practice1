@@ -19,7 +19,14 @@ module.exports = () => {
     return map.set(name, require(_)(config, resolve)); // 得到每个文件的抛出的函数，执行传入config参数，resolve回调参数
   });
 
-  map.forEach(v => v());
+  map.forEach((v, key) => {
+     // css 配置
+     if (key === 'css') {
+      v('css', /\.css$/);
+    } else {
+      v()
+    }
+  });
 
   return config;
 };

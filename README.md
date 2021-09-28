@@ -1,7 +1,8 @@
 ## webpack实践练习项目1
 
-> 参考项目 [一步步从零开始用 webpack 搭建一个大型项目](https://juejin.cn/post/6844904007903772679)
-> [参考项目源码](https://github.com/yezishan/webpack-box)
+> 参考掘金文章-9个主要课题 [一步步从零开始用 webpack 搭建一个大型项目](https://juejin.cn/post/6844904007903772679)
+
+> [完整24个课题模仿参照项目源码](https://github.com/yezishan/webpack-box)
 ### 前言
 
 - 核心所用版本
@@ -61,7 +62,7 @@ npm run build --report # 开启打包分析
 #### 目录
 
 见课题2分支目录
-#### 实现可插拔配置
+#### 通过webpack-chain实现可插拔配置
 
 > 见build/base.js内容
 
@@ -78,29 +79,5 @@ npm run build --report # 开启打包分析
 #### 自动生成html
 
 #### 项目测试
-
-
-
-
-
-
-
-
-
-
-
-### <a id="3">课题3. 基础配置之loader</a>
-
-### <a id="4">课题4. webpack性能优化</a>
-
-### <a id="5">课题5. 手写loader实现可选链</a>
-
-### <a id="6">课题6. webpack编译优化</a>
-
-### <a id="7">课题7. 多页面配置</a>
-
-### <a id="8">课题8. 手写一个webpack插件</a>
-
-### <a id="9">课题9. 构建 ssr</a>
 
 
