@@ -4,6 +4,7 @@ const config = new Config();
 const files = findSync('config'); // 同步读取文件夹下所有文件组成的数组
 const path = require('path');
 const resolve = p => {
+  // process.cwd() ---> 这是当前执行进程消费者单店层面的路径，require.resolve()是提供者层面的模块文件路径
   return path.join(process.cwd(), p);
 };
 console.log(files,'看文件路径数组')

@@ -13,7 +13,10 @@ config.devServer
   .publicPath(publicPath) // 指定浏览器从/common/下访问bundle，此选项优先级比contentBase高
   .clientLogLevel('none');
 
-config.set('devtool', 'inline-source-map'); // 开发模式好像默认带此功能
+
+// 开启source-map映射
+config.devtool('cheap-source-map'); // 低开销的source-map
+// config.set('devtool', 'inline-source-map'); // 内联的source-map
 
 const compiler = webpack(config.toConfig()); // 拿到编译实例
 

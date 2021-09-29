@@ -23,61 +23,97 @@
 - 课时 8：[手写一个webpack插件](#8)
 - 课时 9：[构建 ssr](#9)
 
-#### 要实现的功能
-```js
-// 安装
-npm i -g webpack-box
-// 使用
-webpack-box dev   # 开发环境
-webpack-box build # 生产环境
-webpack-box dll   # 编译差分包
-webpack-box dev index   # 指定页面编译（多页面）
-webpack-box build index # 指定页面编译（多页面）
-webpack-box build index --report # 开启打包分析
-webpack-box build:ssr  # 编译ssr
-webpack-box ssr:server # 在 server 端运行
+## 课题3. 基础配置之loader，ts、babel、css、less、sass、postcss
 
-// 打包分析
-npm run build --report # 开启打包分析
+目录是这样的
+|---- build
+|---- lib
+│──── config                // 配置目录
+│   │── babelLoader.js      // babel-loader 配置
+│   │── ForkTsChecker.js    // ts 静态检查
+│   │── FriendlyErrorsWebpackPlugin.js // 友好错误提示
+│   └── style
+│──── src                   // 开发目录
+│   │── style
+│   │  │── app.css
+│   │  │── index.less       // 测试 less
+│   │  │── index.scss       // 测试 sass
+│   │  └── index.postcss    // 测试 postcss
+│   └── ts
+│     └── index.ts          // 测试 ts
+│── babel.js
+│── postcss.config.js       // postcss 配置
+│── tsconfig.json           // ts 配置
+└──── dist                  // 打包后的目录
+   │── app.bundle.js
+   │── app.css
+   └── index.html
+
+### 配置 babel
+
+- 见babelLoader.js文件
+
+### 使用 babel 配置 ts
+
+这里我们使用 babel 插件 @babel/preset-typescript 将 ts 转成 js，并使用 ForkTsCheckerWebpackPlugin、ForkTsCheckerNotifierWebpackPlugin 插件进行错误提示
+
+
+### ts 静态类型检查
+
+- 见config/ForkTsCheckerjs文件
+
+### 友好错误提示插件
+
+- 见FriendlyErrorsWebpackPlugin.js文件
+
+### 配置样式，style，css、less、sass、postcss 等
+
+- 见config/style.js文件
+
+### postcss 配置
+
+> https://www.jianshu.com/p/a52889370871
+
+- postcss-loader可参考上面文章，这个loader还支持第三方插件的扩展，可以写在webpack配置文件中配置loader的options选项中，也可以在根目录下新建postcss.config.js配置文件会自动注入上下文。
+  - 其中就可支持autoprefixer自动补齐前缀插件用在post-cssloader中，还有个postcss-px-to-viewport自动转换多端逻辑像素插件
+- 插入postcss-loader配置，然后再根目录下写postcss配置文件
+- 见postcss.config.js文件
+
+```js
+"postcss-loader": "^3.0.0",
+"postcss-px-to-viewport": "^1.1.1",
+"autoprefixer": "^10.3.6",
 ```
 
 
-### <a id="1">课题1. 探究webpack打包原理</a>
+### 配置 autoprefixer
 
-> 都是简单的配置，见文章
+- 借助post-css-loader 配合使用的 autoprefixer 插件包自动补齐css前缀 `npm install --save -dev autoprefixer`
+- 将该插件用在postcss配置文件中
 
-#### 解析bundle如何加载模块
+### 编译前后css对比
 
-- bundle 是一个立即执行函数，可以认为它是把所有模块捆绑在一起的一个巨型模块。
-- webpack 将所有模块打包成了 bundle 的依赖，通过一个对象注入
+### 开启 source map
 
-#### 动态import加载原理
-
-#### 使用webpack-chain重写配置
+- 当在源文件下会有一行注释，证明开启了 sourcemap `/*# sourceMappingURL=app.css.map*/` 
 
 
-### <a id="2">课题2. 搭建开发环境跟生产环境</a>
-#### 需要的包
-- ora：ora包用于命令行加载中显示加载中的效果，类似于前端页面的loading效果
-#### 目录
 
-见课题2分支目录
-#### 通过webpack-chain实现可插拔配置
+### 规范git提交
 
-> 见build/base.js内容
+> 工具参考文档：https://www.cnblogs.com/mengfangui/p/12634845.html
 
-- 作者这种可插拔配置的方式相当于webpack的基础配置文件，和config下内容直接写在一个文件中相比看起来更高级点，这个自动读取你的新增配置文件扩展你的基础通用webpakc配置文件，这就叫可插拔。
-- 然后最终生成的这个build/base的基础配置文件就相当于webpack官方文档中的webpack.common.js通用配置文件。然后huildjs，devjs就是根据不同模式下的最终使用版webpack配置文件
-#### 构建生产环境
-
-> 见build/build.js
-
-#### 构建开发环境（devserver）
-
-#### 提取css
-
-#### 自动生成html
-
-#### 项目测试
+- 规范提交commitizen
+```js
+"config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+```
+- 生成git变更日志：conventional-changelog-cli：从git metadata生成变更日志。
 
 
+###
+
+###
