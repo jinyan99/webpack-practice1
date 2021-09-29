@@ -1,12 +1,13 @@
 {
   "name": "webpack-practice1",
   "version": "1.0.1-0",
-  "description": "> 参考项目 [一步步从零开始用 webpack 搭建一个大型项目](https://juejin.cn/post/6844904007903772679)",
+  "description": "参考项目 [一步步从零开始用 webpack 搭建一个大型项目](https://juejin.cn/post/6844904007903772679)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development node build/dev.js",
-    "build": "cross-env NODE_ENV=production node build/build.js"
+    "build": "cross-env NODE_ENV=production node build/build.js",
+    "commit": "git add . && git-cz"
   },
   "repository": {
     "type": "git",
@@ -47,6 +48,7 @@
     "commitlint": "^8.2.0",
     "conventional-changelog-cli": "^2.0.28",
     "css-loader": "^3.6.0",
+    "cz-conventional-changelog": "^3.3.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^3.2.0",
@@ -59,5 +61,10 @@
     "webpack-chain": "^6.0.0",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
