@@ -1,3 +1,24 @@
+## [1.0.2-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.1-0...v1.0.2-0) (2021-09-29)
+
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | 44 | [69fa540](https://github.com/jinyan99/webpack-practice1/commit/69fa540)
+ - | 44 | [ca655c9](https://github.com/jinyan99/webpack-practice1/commit/ca655c9)
+ - | 加入代码规范提交 commitizen 功能 | [ba60145](https://github.com/jinyan99/webpack-practice1/commit/ba60145)
+ - | 添加生成变更日志命令 | [3f386e0](https://github.com/jinyan99/webpack-practice1/commit/3f386e0)
+
+
+### 🐛 Bug 修复
+范围|描述|commitId
+--|--|--
+ - | 3333 | [db28293](https://github.com/jinyan99/webpack-practice1/commit/db28293)
+
+
+范围|描述|commitId
+--|--|--
+ - | 升级版本小号2 | [b248287](https://github.com/jinyan99/webpack-practice1/commit/b248287)
+
 ## [1.0.1-0](https://github.com/jinyan99/webpack-practice1/compare/2a66eeb...v1.0.1-0) (2021-09-29)
 
 范围|描述|commitId
