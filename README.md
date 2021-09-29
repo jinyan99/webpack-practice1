@@ -111,9 +111,18 @@
     }
   }
 ```
+
 - 生成git变更日志：conventional-changelog-cli：从git metadata生成变更日志。
+> 切记：生成日志前必须更新下版本号`npm version prepatch -m "..."`，否则日志生成无效
 
+- 至于vue-cli-plugin-commitlint插件 是基于vue封装的，git规范工具，详细另百度
+  - 结合 `commitizen` `commitlint` `conventional-changelog-cli` `husky`，进行封装，一键安装，开箱即用的 `git commit` 规范。
 
-###
+### git husky 功能添加
+
+- 需要安装 commitlint 工具
+- "@commitlint/config-conventional": "^8.2.0",
+- "commitlint": "^8.2.0",
+- "vue-cli-plugin-commitlint": "^1.0.4",
 
 ###

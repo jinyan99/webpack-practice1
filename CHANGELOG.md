@@ -1,3 +1,15 @@
+## [1.0.3-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.2-0...v1.0.3-0) (2021-09-29)
+
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | 必须每次生成变更日志前都得更新下版本号 否则无效 | [4ffdc1a](https://github.com/jinyan99/webpack-practice1/commit/4ffdc1a)
+
+
+范围|描述|commitId
+--|--|--
+ - | 升级版本小号3 | [b71f628](https://github.com/jinyan99/webpack-practice1/commit/b71f628)
+
 ## [1.0.2-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.1-0...v1.0.2-0) (2021-09-29)
 
 ### 🌟 新功能
