@@ -1,3 +1,10 @@
+## [1.0.4-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.3-0...v1.0.4-0) (2021-09-29)
+
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | 添加 husky git功能 | [3e2822e](https://github.com/jinyan99/webpack-practice1/commit/3e2822e)
+
 ## [1.0.3-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.2-0...v1.0.3-0) (2021-09-29)
 
 ### 🌟 新功能
