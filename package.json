@@ -1,6 +1,6 @@
 {
   "name": "webpack-practice1",
-  "version": "1.0.4-0",
+  "version": "1.0.5-0",
   "description": "参考项目 [一步步从零开始用 webpack 搭建一个大型项目](https://juejin.cn/post/6844904007903772679)",
   "main": "index.js",
   "sideEffects": [
