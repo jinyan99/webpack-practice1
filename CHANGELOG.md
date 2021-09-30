@@ -1,15 +1,23 @@
-## [1.0.4-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.3-0...v1.0.4-0) (2021-09-30)
+## [1.0.6-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.3-0...v1.0.6-0) (2021-09-30)
 
 ### 🌟 新功能
 范围|描述|commitId
 --|--|--
+ - | 新增课题4内容优化配置 | [175dbcd](https://github.com/jinyan99/webpack-practice1/commit/175dbcd)
  - | 添加 husky git功能 | [3e2822e](https://github.com/jinyan99/webpack-practice1/commit/3e2822e)
+ - | 版本号 | [37b9e66](https://github.com/jinyan99/webpack-practice1/commit/37b9e66)
 
 
 ### 📝 文档
 范围|描述|commitId
 --|--|--
  - | 完善readme | [db773fb](https://github.com/jinyan99/webpack-practice1/commit/db773fb)
+
+
+### chore
+范围|描述|commitId
+--|--|--
+ - | 升级版本小号6 | [9011eaf](https://github.com/jinyan99/webpack-practice1/commit/9011eaf)
 
 ## [1.0.3-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.2-0...v1.0.3-0) (2021-09-29)
 

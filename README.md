@@ -23,123 +23,57 @@
 - 课时 8：[手写一个webpack插件](#8)
 - 课时 9：[构建 ssr](#9)
 
-## 课题4. webpack性能优化
+## 课题5. 手写loader实现可选链
 
-### 分离manifest,runtime,
+### 什么是webpack-loader
+
+webpack loader 是 webpack 为了处理各种类型文件的一个中间层，webpack 本质上就是一个 node 模块，它不能处理 js 以外的文件，那么 loader 就帮助 webpack 做了一层转换，将所有文件都转成字符串，你可以对字符串进行任意操作/修改，然后返回给 webpack 一个包含这个字符串的对象，让 webpack 进行后面的处理。如果把 webpack 当成一个垃圾工厂的话，那么 loader 就是这个工厂的垃圾分类！
+
+
+### 可选链介绍
+
+这里并不是纯粹意义上的可选链，因为 babel 跟 ts 都已经支持了，我们也没有必要去写一个完整的可选链，只是来加深一下对 loader 的理解， loader 在工作当中能帮助我们做什么？
+用途 当我们访问一个对象属性时不必担心这个对象是 undefined 而报错，导致程序不能继续向下执行
+解释 在 ? 之前的所有访问链路都是合法的，不会产生报错
 
 ```js
-module.exports = (config, resolve) => {
-  return () => {
-    config
-      .optimization
-      // .runtimeChunk({
-      //   name: "manifest"
-      // })
-      .runtimeChunk('single')
-      // 实质类似的，只是名字不一样，分离出runtime chunk
+const obj = {
+  foo: {
+    bar: {
+      baz: 2
+    }
   }
 }
+
+console.log(obj.foo.bar?.baz) // 2
+// 被转成 obj && obj.foo && obj.foo.bar && obj.foo.bar.baz
+console.log(obj.foo.err?.baz) // undefined
+// 被转成 obj && obj.foo && obj.foo.err && obj.foo.err.baz
+
 ```
 
+### loader实现可选链
+配置loader，options-chain-loader
 
-### Code spliting 代码分割
-
-- 使用动态 import 或者 require.ensure 语法，在第一节已经讲解
-- 使用 [babel-plugin-import](https://blog.csdn.net/weixin_43487782/article/details/118559079) 插件按需引入一些组件库
-
-### Bundle spliting 打包分割 三方依赖
-
-- 将公共的包提取到 chunk-vendors 里面，比如你require('vue')，webpack 会将 vue 打包进 chunk-vendors.bundle.js
-- 用optimization.splitChunks选项配置
-
-- 这个拆包出三房依赖，必须是项目代码里引入模块并使用的，才会触发`cacheGroups.vendors`分割三方依赖包功能，如引入lodash并使用了其中方法
 ```js
+// config/OptionsChainLoader.js
 module.exports = (config, resolve) => {
+  const baseRule = config.module.rule('js').test(/.js|.tsx?$/);
+  const normalRule = baseRule.oneOf('normal');
   return () => {
-    config
-      .optimization.splitChunks({
-        chunks: 'async',
-        minSize: 30000,
-        minChunks: 1,
-        maxAsyncRequests: 3,
-        maxInitialRequests: 3,
-        cacheGroups: {
-          vendors: {
-            name: `chunk-vendors`, // 这个
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            chunks: 'initial'
-          },
-          common: {
-            name: `chunk-common`,
-            minChunks: 2,
-            priority: -20,
-            chunks: 'initial',
-            reuseExistingChunk: true
-          }
-        }
-      })
-    config.optimization.usedExports(true)
+    normalRule
+      .use('options-chain')
+      .loader(resolve('options-chain-loader'))
   }
 }
 
 ```
 
-### Tree shaking 摇树
+#### 实现原理
+可选链问好修饰符----es6的语法用自定义loader实现
 
-```js
-// config/optimization.js
-config.optimization.usedExports(true);
-// src/treeShaking.js
-export function square(x) {
-  return x * x;
-}
+其实就是正则替换，loader 将整个文件全部转换成字符串，content 就是整个文件的内容，对 content 进行修改，修改完成后再返回一个新的 content 就完成了一个 loader 转换。是不是很简单？
+下面的操作意思就是，我们匹配 obj.foo.bar?. 并把它转成 obj && obj.foo && obj.foo.bar && obj.foo.bar.
 
-export function cube(x) {
-  return x * x * x;
-}
+> 具体见options-chain-loader.js文件
 
-```
-使用了 Tree Shaking
-这里只导出了 cube 函数，并没有将 square 导出去
-
-当然你可以看见 square 函数还是在 bundle 里面，但是在压缩的时候就会被干掉了，因为它并没有被引用
-
-
-#### 如何使用tree-shaking？
-
-- 确保代码是es6格式,即 export，import
-- package.json中，设置 sideEffects
-- 确保 tree-shaking 的函数没有副作用
-- babelrc中设置presets [["@babel/preset-env", { "modules": false }]] 禁止转换模块，交由webpack进行模块化处理
-- 结合uglifyjs-webpack-plugin
-
-- 其实在 webpack4 我们根本不需要做这些操作了，因为 webpack 在生产环境已经帮我们默认添加好了，开箱即用！
-
-
-### 开启gzip
-
-- HTTP协议上的gzip编码是一种用来改进web应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip。目前主流的浏览器，Chrome,firefox,IE等都支持该协议。
-
-简单来说，gzip是一种压缩技术。经过gzip压缩后页面大小可以变为原来的30%甚至更小，这样，用户浏览页面的时候速度会快得多。
-
-- gzip文章：https://blog.csdn.net/sinat_34849421/article/details/114313031
-
-```js
-// CompressionWebpackPlugin.js
-const CompressionWebpackPlugin = require('compression-webpack-plugin');
-
-module.exports = (config, resolve) => {
-  return () => {
-    config.plugin('CompressionWebpackPlugin').use(CompressionWebpackPlugin, [
-      {
-        algorithm: 'gzip',
-        test: /\.js(\?.*)?$/i,
-        threshold: 10240,
-        minRatio: 0.8
-      }
-    ]);
-  };
-};
-
-```
