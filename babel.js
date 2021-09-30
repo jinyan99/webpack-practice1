@@ -26,6 +26,7 @@ module.exports = function (api) {
       '@babel/plugin-transform-typescript', 
       'transform-class-properties',
       '@babel/proposal-object-rest-spread'
-    ]
+    ],
+    compact: false// 不启用紧凑模式生成代码，默认是超出500kb的包就紧凑失效了超出限制
   }
 }

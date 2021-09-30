@@ -1,5 +1,5 @@
 const rimraf = require('rimraf');
-const ora = require('ora'); // 命令行进度条
+const ora = require('ora'); // 命令行loading+进度条
 const chalk = require('chalk'); // 日志颜色工具
 const path = require('path');
 
@@ -15,7 +15,7 @@ spinner.start();
 webpack(config.toConfig(), function(err, stats) {
   spinner.stop();
   if (err) throw err;
-  process.stdout.write(// console.log就是基于它实现
+  process.stdout.write(// 这块输出是构建打包成功后输出的dist目录chunks信息；console.log就是基于它实现,
     stats.toString({
       colors: true,
       modules: false,

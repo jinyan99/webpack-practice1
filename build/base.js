@@ -1,5 +1,6 @@
 const { findSync } = require('../lib');
 const Config = require('webpack-chain');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const config = new Config();
 const files = findSync('config'); // 同步读取文件夹下所有文件组成的数组
 const path = require('path');
@@ -28,6 +29,10 @@ module.exports = () => {
       v()
     }
   });
+
+  config
+    .plugin('CleanWebpackPlugin清理dist')
+    .use(CleanWebpackPlugin);
 
   return config;
 };

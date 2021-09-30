@@ -23,106 +23,123 @@
 - 课时 8：[手写一个webpack插件](#8)
 - 课时 9：[构建 ssr](#9)
 
-## 课题3. 基础配置之loader，ts、babel、css、less、sass、postcss
+## 课题4. webpack性能优化
 
-目录是这样的
-|---- build
-|---- lib
-│──── config                // 配置目录
-│   │── babelLoader.js      // babel-loader 配置
-│   │── ForkTsChecker.js    // ts 静态检查
-│   │── FriendlyErrorsWebpackPlugin.js // 友好错误提示
-│   └── style
-│──── src                   // 开发目录
-│   │── style
-│   │  │── app.css
-│   │  │── index.less       // 测试 less
-│   │  │── index.scss       // 测试 sass
-│   │  └── index.postcss    // 测试 postcss
-│   └── ts
-│     └── index.ts          // 测试 ts
-│── babel.js
-│── postcss.config.js       // postcss 配置
-│── tsconfig.json           // ts 配置
-└──── dist                  // 打包后的目录
-   │── app.bundle.js
-   │── app.css
-   └── index.html
-
-### 配置 babel
-
-- 见babelLoader.js文件
-
-### 使用 babel 配置 ts
-
-这里我们使用 babel 插件 @babel/preset-typescript 将 ts 转成 js，并使用 ForkTsCheckerWebpackPlugin、ForkTsCheckerNotifierWebpackPlugin 插件进行错误提示
-
-
-### ts 静态类型检查
-
-- 见config/ForkTsCheckerjs文件
-
-### 友好错误提示插件
-
-- 见FriendlyErrorsWebpackPlugin.js文件
-
-### 配置样式，style，css、less、sass、postcss 等
-
-- 见config/style.js文件
-
-### postcss 配置
-
-> https://www.jianshu.com/p/a52889370871
-
-- postcss-loader可参考上面文章，这个loader还支持第三方插件的扩展，可以写在webpack配置文件中配置loader的options选项中，也可以在根目录下新建postcss.config.js配置文件会自动注入上下文。
-  - 其中就可支持autoprefixer自动补齐前缀插件用在post-cssloader中，还有个postcss-px-to-viewport自动转换多端逻辑像素插件
-- 插入postcss-loader配置，然后再根目录下写postcss配置文件
-- 见postcss.config.js文件
+### 分离manifest,runtime,
 
 ```js
-"postcss-loader": "^3.0.0",
-"postcss-px-to-viewport": "^1.1.1",
-"autoprefixer": "^10.3.6",
-```
-
-
-### 配置 autoprefixer
-
-- 借助post-css-loader 配合使用的 autoprefixer 插件包自动补齐css前缀 `npm install --save -dev autoprefixer`
-- 将该插件用在postcss配置文件中
-
-### 编译前后css对比
-
-### 开启 source map
-
-- 当在源文件下会有一行注释，证明开启了 sourcemap `/*# sourceMappingURL=app.css.map*/` 
-
-
-
-### 规范git提交
-
-> 工具参考文档：https://www.cnblogs.com/mengfangui/p/12634845.html
-
-- 规范提交commitizen
-```js
-"config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+module.exports = (config, resolve) => {
+  return () => {
+    config
+      .optimization
+      // .runtimeChunk({
+      //   name: "manifest"
+      // })
+      .runtimeChunk('single')
+      // 实质类似的，只是名字不一样，分离出runtime chunk
   }
+}
 ```
 
-- 生成git变更日志：conventional-changelog-cli：从git metadata生成变更日志。
-> 切记：生成日志前必须更新下版本号`npm version prepatch -m "..."`，否则日志生成无效
 
-- 至于vue-cli-plugin-commitlint插件 是基于vue封装的，git规范工具，详细另百度
-  - 结合 `commitizen` `commitlint` `conventional-changelog-cli` `husky`，进行封装，一键安装，开箱即用的 `git commit` 规范。
+### Code spliting 代码分割
 
-### git husky 功能添加
+- 使用动态 import 或者 require.ensure 语法，在第一节已经讲解
+- 使用 [babel-plugin-import](https://blog.csdn.net/weixin_43487782/article/details/118559079) 插件按需引入一些组件库
 
-- 需要安装 commitlint 工具
-- "@commitlint/config-conventional": "^8.2.0",
-- "commitlint": "^8.2.0",
-- "vue-cli-plugin-commitlint": "^1.0.4",
+### Bundle spliting 打包分割 三方依赖
 
-###
+- 将公共的包提取到 chunk-vendors 里面，比如你require('vue')，webpack 会将 vue 打包进 chunk-vendors.bundle.js
+- 用optimization.splitChunks选项配置
+
+- 这个拆包出三房依赖，必须是项目代码里引入模块并使用的，才会触发`cacheGroups.vendors`分割三方依赖包功能，如引入lodash并使用了其中方法
+```js
+module.exports = (config, resolve) => {
+  return () => {
+    config
+      .optimization.splitChunks({
+        chunks: 'async',
+        minSize: 30000,
+        minChunks: 1,
+        maxAsyncRequests: 3,
+        maxInitialRequests: 3,
+        cacheGroups: {
+          vendors: {
+            name: `chunk-vendors`, // 这个
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            chunks: 'initial'
+          },
+          common: {
+            name: `chunk-common`,
+            minChunks: 2,
+            priority: -20,
+            chunks: 'initial',
+            reuseExistingChunk: true
+          }
+        }
+      })
+    config.optimization.usedExports(true)
+  }
+}
+
+```
+
+### Tree shaking 摇树
+
+```js
+// config/optimization.js
+config.optimization.usedExports(true);
+// src/treeShaking.js
+export function square(x) {
+  return x * x;
+}
+
+export function cube(x) {
+  return x * x * x;
+}
+
+```
+使用了 Tree Shaking
+这里只导出了 cube 函数，并没有将 square 导出去
+
+当然你可以看见 square 函数还是在 bundle 里面，但是在压缩的时候就会被干掉了，因为它并没有被引用
+
+
+#### 如何使用tree-shaking？
+
+- 确保代码是es6格式,即 export，import
+- package.json中，设置 sideEffects
+- 确保 tree-shaking 的函数没有副作用
+- babelrc中设置presets [["@babel/preset-env", { "modules": false }]] 禁止转换模块，交由webpack进行模块化处理
+- 结合uglifyjs-webpack-plugin
+
+- 其实在 webpack4 我们根本不需要做这些操作了，因为 webpack 在生产环境已经帮我们默认添加好了，开箱即用！
+
+
+### 开启gzip
+
+- HTTP协议上的gzip编码是一种用来改进web应用程序性能的技术，web服务器和客户端（浏览器）必须共同支持gzip。目前主流的浏览器，Chrome,firefox,IE等都支持该协议。
+
+简单来说，gzip是一种压缩技术。经过gzip压缩后页面大小可以变为原来的30%甚至更小，这样，用户浏览页面的时候速度会快得多。
+
+- gzip文章：https://blog.csdn.net/sinat_34849421/article/details/114313031
+
+```js
+// CompressionWebpackPlugin.js
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+
+module.exports = (config, resolve) => {
+  return () => {
+    config.plugin('CompressionWebpackPlugin').use(CompressionWebpackPlugin, [
+      {
+        algorithm: 'gzip',
+        test: /\.js(\?.*)?$/i,
+        threshold: 10240,
+        minRatio: 0.8
+      }
+    ]);
+  };
+};
+
+```
