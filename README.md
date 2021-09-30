@@ -26,28 +26,34 @@
 ## 课题3. 基础配置之loader，ts、babel、css、less、sass、postcss
 
 目录是这样的
-|---- build
-|---- lib
-│──── config                // 配置目录
-│   │── babelLoader.js      // babel-loader 配置
-│   │── ForkTsChecker.js    // ts 静态检查
-│   │── FriendlyErrorsWebpackPlugin.js // 友好错误提示
-│   └── style
-│──── src                   // 开发目录
-│   │── style
-│   │  │── app.css
-│   │  │── index.less       // 测试 less
-│   │  │── index.scss       // 测试 sass
-│   │  └── index.postcss    // 测试 postcss
-│   └── ts
-│     └── index.ts          // 测试 ts
-│── babel.js
-│── postcss.config.js       // postcss 配置
-│── tsconfig.json           // ts 配置
-└──── dist                  // 打包后的目录
-   │── app.bundle.js
-   │── app.css
-   └── index.html
+
+```js
+// 配置目录
+|-- build
+|-- lib
+|-- config
+  |-- babelLoader.js  // babel-loader 配置
+  |-- ForkTsChecker.js // ts 静态检查
+  |-- FriendlyErrorsWebpackPlugin.js // 友好错误提示
+  |-- style
+// 开发目录
+|-- src
+  |-- style
+    |-- app.css
+    |-- index.less      // 测试 less
+    |-- index.scss      // 测试 sass
+    |-- index.postcss   // 测试 postcss
+  |-- ts
+    |-- index.ts        // 测试 ts
+|-- babel.js
+|-- postcss.config.js   // postcss 配置
+|-- tsconfig.json       // ts 配置
+// 打包后的目录
+|--dist
+  |-- app.bundle.js
+  |-- app.css
+  |-- index.html
+```
 
 ### 配置 babel
 
