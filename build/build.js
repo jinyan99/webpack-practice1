@@ -1,3 +1,6 @@
+module.exports = (options) => {
+
+
 const rimraf = require('rimraf');
 const ora = require('ora'); // 命令行loading+进度条
 const chalk = require('chalk'); // 日志颜色工具
@@ -5,11 +8,17 @@ const path = require('path');
 
 // // 删除 dist 目录
 // rimraf.sync(path.join(process.cwd(), 'dist'));
+// 删除 dist 目录
+options.clear && rimraf.sync(path.join(process.cwd(), 'dist'))
 
-const config = require('./base')();
+const config = require('./base')(options);
 const webpack = require('webpack');
 const spinner = ora('开始构建项目...');
 spinner.start();
+
+ if(typeof options.chainWebpack === 'function') {
+    options.chainWebpack(config)
+  }
 
 // 采用nodejs方式执行webpack API而不是webpack-cli执行
 webpack(config.toConfig(), function(err, stats) {
@@ -32,3 +41,4 @@ webpack(config.toConfig(), function(err, stats) {
 
   console.log(chalk.cyan('build完成\n'));
 });
+}

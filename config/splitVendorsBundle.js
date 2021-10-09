@@ -1,5 +1,5 @@
 // 提取3方依赖 单独打包
-module.exports = (config, resolve) => {
+module.exports = ({config, resolve}) => {
   return () => {
     config
       .optimization.splitChunks({

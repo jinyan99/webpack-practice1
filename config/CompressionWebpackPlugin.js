@@ -1,7 +1,7 @@
 // 开启gzip压缩
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
-module.exports = (config, resolve) => {
+module.exports = ({config, resolve}) => {
   return () => {
     config.plugin('CompressionWebpackPlugin').use(CompressionWebpackPlugin, [
       {

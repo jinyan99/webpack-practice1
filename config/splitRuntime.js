@@ -1,4 +1,4 @@
-module.exports = (config, resolve) => {
+module.exports = ({config, resolve}) => {
   return () => {
     config
       .optimization

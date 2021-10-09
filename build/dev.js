@@ -1,9 +1,12 @@
-const config = require('./base')();
+module.exports = (options) => {
+
+
+const config = require('./base')(options);
 const webpack = require('webpack');
 const chalk = require('chalk');
 const WebpackDevServer = require('webpack-dev-server');
-const port = 8181;
-const publicPath = '/common/';
+const port = options.port || 8080;
+const publicPath = options.publicPath || '/'
 
 config.devServer
   .quiet(true) // 除了初始启动信息之外的任何内容都不会被打印到控制台。这也意味着来自 webpack 的错误或警告在控制台不可见。
@@ -12,6 +15,11 @@ config.devServer
   .disableHostCheck(true)
   .publicPath(publicPath) // 指定浏览器从/common/下访问bundle，此选项优先级比contentBase高
   .clientLogLevel('none');
+
+
+if (typeof options.chainWebpack === 'function') {
+    options.chainWebpack(config)
+}
 
 
 // 开启source-map映射
@@ -45,3 +53,4 @@ new Promise(() => {
     console.log(chalk.cyan('\n' + empty + common));
   });
 });
+}

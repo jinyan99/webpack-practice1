@@ -1,5 +1,5 @@
 // 启动多线程池
-module.exports = (config, resolve) => {
+module.exports = ({config, resolve}) => {
   const baseRule = config.module.rule('js').test(/.js|.tsx?$/);
   return () => {
     const useThreads = true;

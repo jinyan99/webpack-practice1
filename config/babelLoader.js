@@ -1,4 +1,4 @@
-module.exports = (config, resolve) => {
+module.exports = ({config, resolve}) => {
   const baseRule = config.module.rule('js').test(/.js|.tsx?$/);
   const babelPath = resolve('babel.js')// 源码层面路径
   const babelConf = require(babelPath);

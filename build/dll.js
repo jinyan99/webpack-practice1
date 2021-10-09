@@ -1,4 +1,6 @@
 // 打包dll
+module.exports = (options) => {
+
 const path = require("path");
 const dllPath = path.join(process.cwd(), 'dll');
 const Config = require('webpack-chain');
@@ -9,7 +11,10 @@ const ora = require('ora')
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('../config/BundleAnalyzerPlugin')(config)
 
-BundleAnalyzerPlugin()
+  if (options.report) {
+    BundleAnalyzerPlugin()
+  }
+
 config
   .entry('dll')
   .add('react')
@@ -49,3 +54,4 @@ webpack(config.toConfig(), function (err, stats) {
   }
   console.log(chalk.cyan('build完成\n'))
 })
+}
