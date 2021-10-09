@@ -1,3 +1,16 @@
+## [1.0.7-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.6-0...v1.0.7-0) (2021-09-30)
+
+### 🌟 新功能
+范围|描述|commitId
+--|--|--
+ - | 完善课题5 | [5231752](https://github.com/jinyan99/webpack-practice1/commit/5231752)
+
+
+### chore
+范围|描述|commitId
+--|--|--
+ - | 升级版本小号7 | [fc4ba16](https://github.com/jinyan99/webpack-practice1/commit/fc4ba16)
+
 ## [1.0.6-0](https://github.com/jinyan99/webpack-practice1/compare/v1.0.3-0...v1.0.6-0) (2021-09-30)
 
 ### 🌟 新功能

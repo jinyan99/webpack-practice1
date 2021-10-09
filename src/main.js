@@ -2,7 +2,7 @@ import TS from './ts/index.ts'
 import _ from 'lodash';
 import { cube1 } from './treeShaking';
 
-console.log(cube1(2));
+console.log(cube1(2),'5');
 
 require('./style/index.css')
 require('./style/app.css')

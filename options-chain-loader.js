@@ -7,7 +7,7 @@
 
  */
 module.exports = function(content) {
-  console.log(content,'看loader过程中文件内容')
+  // console.log(content,'看loader过程中文件内容')
   return content.replace(new RegExp(/([\$_\w\.]+\?\.)/,'g'),function(res) {
     // acc.tty?.
     let str  = res.replace(/\?\./,'');// acc.tty
