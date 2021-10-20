@@ -18,7 +18,7 @@ module.exports = () => {
     const name = _.split('/')
       .pop() // 得到config文件夹下所有文件名带js结尾的，如某次遍历得到了一个base字符串
       .replace('.js', '');
-    return map.set(name, require(_)(config, resolve)); // 得到每个文件的抛出的函数，执行传入config参数，resolve回调参数
+    return map.set(name, require(_)(config, resolve,'允许使用jsxtsx语法')); // 得到每个文件的抛出的函数，执行传入config参数，resolve回调参数
   });
 
   map.forEach((v, key) => {
