@@ -2,7 +2,7 @@
 
 > 参考掘金文章-9个主要课题 [一步步从零开始用 webpack 搭建一个大型项目](https://juejin.cn/post/6844904007903772679)
 
-> [完整24个课题模仿参照项目源码](https://github.com/yezishan/webpack-box)
+> [完整24个课题模仿参照项目源码](https://github.com/luoxue-victor/workflow/tree/%E8%AF%BE%E9%A2%988)
 ### 前言
 
 - 核心所用版本
